@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
+
+    <joint name="camera_joint" type="fixed">
+        <parent link= "chassis" />
+        <child link= "camera_link" />
+        <origin xyz="0.305 0 0.08" rpy="0 0 0" />
+    </joint>
+
+    <link name="camera_link">
+        <visual>
+            <geometry>
+                <box size="0.01 0.03 0.03"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+    </link>
+
+    <joint name="camera_optical_joint" type="fixed">
+        <parent link= "camera_link" />
+        <child link= "camera_link_optical" />
+        <origin xyz="0 0 0" rpy="-${M_PI/2} 0 -${M_PI/2}" />
+    </joint>
+
+    <link name="camera_link_optical" />
+
+    <gazebo reference="camera_link">
+        <material>Gazebo/Red</material>
+
+        <sensor name="camera" type="depth" update_rate="10" >
+            <visualize>true</visualize>
+            <pose> 0 0 0 0 0 0 </pose>
+            <camera>
+                <horizontal_fov>1.089</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                    <format>B8G8R8</format>
+                </image>
+                <clip>
+                    <near>0.05</near>
+                    <far>8</far>
+                </clip>
+            </camera>
+
+            <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+                <imageTopicName>/color/image_raw</imageTopicName>
+                <cameraInfoTopicName>/color/camera_info</cameraInfoTopicName>
+                <depthImageTopicName>/depth/image_raw</depthImageTopicName>
+                <depthImageCameraInfoTopicName>/depth/camera_info</depthImageCameraInfoTopicName>
+                <pointCloudTopicName>/depth/points</pointCloudTopicName>
+
+                <frameName>camera_link_optical</frameName>
+                <pointCloudCutoff>0.1</pointCloudCutoff>
+                <pointCloudCutoffMax>100.0</pointCloudCutoffMax>
+                
+            </plugin>
+
+        </sensor>
+
+    </gazebo>
+
+</robot>

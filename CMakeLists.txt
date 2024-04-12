@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  controller_manager
 )
 
 ## Declare ROS messages, services and actions ##
@@ -43,7 +44,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES package_name
- CATKIN_DEPENDS roscpp rospy std_msgs
+ CATKIN_DEPENDS roscpp rospy std_msgs controller_manager
 #  DEPENDS system_lib
 # CATKIN_DEPENDS
 # message_runtime

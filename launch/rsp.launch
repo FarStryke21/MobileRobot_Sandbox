@@ -6,6 +6,10 @@
 
     <param name="robot_description" command="xacro '$(find MobileRobot_Sandbox)/description/robot.urdf.xacro'" />
 
+    <rosparam file="$(find MobileRobot_Sandbox)/config/controllers.yaml" command="load" />
+    <rosparam file="$(find MobileRobot_Sandbox)/config/gazebo_params.yaml" command="load" />
+    
+
     <!-- Node: robot_state_publisher -->
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen" respawn="false">
         <param name="use_sim_time" value="$(arg use_sim_time)" />
@@ -16,8 +20,24 @@
         <arg name="world_name" value="$(arg world_file)"/>
     </include>
 
+    <!-- Launch RViz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find MobileRobot_Sandbox)/config/odom_based_motion.rviz" />
+
     <!-- Spawn Robot Model -->
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
         args="-urdf -model $(arg robot_name) -param robot_description" />
+
+    <!-- Launch Controller Manager -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+         args="mobile_base_controller joint_state_controller" />   
+
+    <!-- Start Joy Stick Controller -->
+    <rosparam file="$(find MobileRobot_Sandbox)/config/joystick.yaml" command="load" />
+    <node name="joy" pkg="joy" type="joy_node" respawn="false" output="screen" />
+    <node name="teleop_node" pkg="teleop_twist_joy" type="teleop_node" respawn="false" output="screen">
+        <remap from="/cmd_vel" to="/mobile_base_controller/cmd_vel" />
+    </node>
+    
+    
 
 </launch>

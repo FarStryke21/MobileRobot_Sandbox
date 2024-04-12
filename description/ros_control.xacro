@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
+
+ <!-- Transmission for left wheel -->
+    <transmission name="left_wheel_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_wheel_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="left_motor"/>
+        <mechanicalReduction>1</mechanicalReduction>
+    </transmission>
+
+    <!-- Transmission for right wheel -->
+    <transmission name="right_wheel_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_wheel_joint">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_motor"/>
+        <mechanicalReduction>1</mechanicalReduction>
+    </transmission>
+
+    <!-- Define the gazebo_ros_control plugin -->
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <!-- Specify the controller configuration file -->
+            <controlPeriod>0.01</controlPeriod> <!-- Control loop period -->
+            <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType> <!-- Robot simulator type -->
+            <legacyModeNS>true</legacyModeNS> <!-- Enable legacy mode -->
+            <robotParam>robot_description</robotParam> <!-- URDF parameter -->
+            <rosDebugLevel>info</rosDebugLevel> <!-- ROS debug level -->
+        </plugin>
+    </gazebo>
+
+</robot>

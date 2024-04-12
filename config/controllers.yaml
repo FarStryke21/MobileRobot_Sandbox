@@ -1,0 +1,26 @@
+controller_manager_ns: controller_manager
+controller_list:
+  - name: mobile_base_controller
+    action_ns: follow_joint_trajectory
+    type: DiffDriveController
+    default: true
+    joints: [left_wheel_joint, right_wheel_joint]
+
+  - name: joint_state_controller
+    type: JointStateController
+    default: true
+    publish_rate: 100
+
+mobile_base_controller:
+  type        : "diff_drive_controller/DiffDriveController"
+  left_wheel  : 'left_wheel_joint'
+  right_wheel : 'right_wheel_joint'
+  publish_rate: 50.0               # default: 50
+  pose_covariance_diagonal : [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+  twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+
+joint_state_controller:
+  type: "joint_state_controller/JointStateController"
+  publish_rate: 100
+
+

@@ -1,0 +1,19 @@
+gazebo:
+  # Update rate for Gazebo
+  update_rate: 400
+
+  # Whether to use the real-time update rate
+  # real_time_update_rate: 100
+
+  # Simulation time step
+  # time_step: 0.01
+
+  # Gravity in the simulation environment
+  # gravity: [0.0, 0.0, -9.81]
+
+  # Enable ROS interface (Gazebo-ROS bridge)
+  ros_interface:
+    publish_clock: true
+    publish_tf: true
+    publish_joint_state: true
+    publish_link_states: true
