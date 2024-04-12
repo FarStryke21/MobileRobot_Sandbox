@@ -2,6 +2,7 @@
     <!-- Declare launch argument for sim time -->
     <arg name="use_sim_time" default="true" />
     <arg name="robot_name" default="mobile_robot" />
+    <arg name="world_file" default="$(find MobileRobot_Sandbox)/worlds/playground.world"/>
 
     <param name="robot_description" command="xacro '$(find MobileRobot_Sandbox)/description/robot.urdf.xacro'" />
 
@@ -11,10 +12,12 @@
     </node>
 
     <!-- Launch Gazebo -->
-    <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(arg world_file)"/>
+    </include>
 
     <!-- Spawn Robot Model -->
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-          args="-urdf -model $(arg robot_name) -param robot_description" />
+        args="-urdf -model $(arg robot_name) -param robot_description" />
 
 </launch>
