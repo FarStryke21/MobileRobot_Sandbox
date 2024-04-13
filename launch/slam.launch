@@ -1,0 +1,7 @@
+<launch>
+
+    <node pkg="slam_toolbox" type="async_slam_toolbox_node" name="slam_toolbox" output="screen">
+        <rosparam file="$(find MobileRobot_Sandbox)/config/mapper_params.yaml" command="load" />
+    </node>
+
+</launch>

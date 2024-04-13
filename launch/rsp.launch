@@ -35,8 +35,11 @@
     <rosparam file="$(find MobileRobot_Sandbox)/config/joystick.yaml" command="load" />
     <node name="joy" pkg="joy" type="joy_node" respawn="false" output="screen" />
     <node name="teleop_node" pkg="teleop_twist_joy" type="teleop_node" respawn="false" output="screen">
-        <remap from="/cmd_vel" to="/mobile_base_controller/cmd_vel" />
+        <remap from="/cmd_vel" to="/cmd_vel_joy" />
     </node>
+
+    <!-- Launch twist_mux -->
+    <include file="$(find MobileRobot_Sandbox)/launch/twist_mux.launch" />
     
     
 

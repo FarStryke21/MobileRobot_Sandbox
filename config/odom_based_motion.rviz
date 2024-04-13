@@ -5,8 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
-        - /LaserScan1/Status1
-        - /Camera1/Status1
       Splitter Ratio: 0.5
     Tree Height: 639
   - Class: rviz/Selection
@@ -60,6 +58,8 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
+        base_footprint:
+          Value: true
         base_link:
           Value: false
         camera_link:
@@ -74,6 +74,8 @@ Visualization Manager:
           Value: false
         left_wheel:
           Value: false
+        map:
+          Value: true
         odom:
           Value: true
         right_wheel:
@@ -84,20 +86,23 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_link:
-            chassis:
-              camera_link:
-                camera_link_optical:
+        map:
+          odom:
+            base_link:
+              base_footprint:
+                {}
+              chassis:
+                camera_link:
+                  camera_link_optical:
+                    {}
+                caster_wheel:
                   {}
-              caster_wheel:
+                laser_frame:
+                  {}
+              left_wheel:
                 {}
-              laser_frame:
+              right_wheel:
                 {}
-            left_wheel:
-              {}
-            right_wheel:
-              {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -110,6 +115,10 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base_footprint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         base_link:
           Alpha: 1
           Show Axes: false
@@ -183,7 +192,7 @@ Visualization Manager:
       Use rainbow: true
       Value: true
     - Class: rviz/Camera
-      Enabled: true
+      Enabled: false
       Image Rendering: background and overlay
       Image Topic: /color/image_raw
       Name: Camera
@@ -191,7 +200,7 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
-      Value: true
+      Value: false
       Visibility:
         Camera: true
         Grid: true
@@ -202,7 +211,7 @@ Visualization Manager:
         Value: true
       Zoom Factor: 1
     - Class: rviz/Camera
-      Enabled: false
+      Enabled: true
       Image Rendering: background and overlay
       Image Topic: /depth/image_raw
       Name: Camera
@@ -210,7 +219,7 @@ Visualization Manager:
       Queue Size: 2
       Transport Hint: raw
       Unreliable: false
-      Value: false
+      Value: true
       Visibility:
         Camera: true
         Grid: true
@@ -276,16 +285,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.2650513648986816
+      Distance: 8.207252502441406
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.2608702480792999
-        Y: 0.1296030879020691
-        Z: 0.03376374766230583
+        X: 0.36192595958709717
+        Y: -0.4252851605415344
+        Z: 0.22178299725055695
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false

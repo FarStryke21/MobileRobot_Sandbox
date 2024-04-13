@@ -1,0 +1,11 @@
+<launch>
+  <arg name="config_topics" default="$(find MobileRobot_Sandbox)/config/twist_mux.yaml"/>
+  <arg name="cmd_vel_out" default="/mobile_base_controller/cmd_vel"/>
+
+
+  <node pkg="twist_mux" type="twist_mux" name="twist_mux" output="screen">
+    <remap from="cmd_vel_out" to="$(arg cmd_vel_out)"/>
+    <rosparam file="$(arg config_topics)" command="load"/>
+  </node>
+
+</launch>
