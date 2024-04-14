@@ -1,0 +1,7 @@
+# Example global_planner_params.yaml
+GlobalPlanner:
+  # Frame ID of the map
+  map_frame: "map"
+
+  # Topic name of the static map
+  map_topic: "map"

@@ -1,21 +1,14 @@
 <launch>
-  <!-- 
-  NOTE: You'll need to bring up something that publishes sensor data (see
-  rosstage), something that publishes a map (see map_server), and something to
-  visualize a costmap (see nav_view), to see things work.
+  <!-- Load the static map -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find MobileRobot_Sandbox)/config/playground_save.yaml"/>
 
-  Also, on a real robot, you'd want to set the "use_sim_time" parameter to false, or just not set it.
-  -->
-  <param name="/use_sim_time" value="true"/>
-
-  <!-- Publishes the voxel grid to rviz for display -->
-  <node pkg="costmap_2d" type="costmap_2d_markers" name="voxel_visualizer">
-    <remap from="voxel_grid" to="costmap/voxel_grid"/>
+  <!-- Launch move_base with global planner -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find mobile_manipulator)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find mobile_manipulator)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find mobile_manipulator)/param/local_costmap_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find mobile_manipulator)/param/global_costmap_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find mobile_manipulator)/param/base_local_planner_params.yaml" command="load" />
   </node>
-
-  <!-- Run the costmap node -->
-  <node name="costmap_node" pkg="costmap_2d" type="costmap_2d_node" >
-    <rosparam file="$(find MobileRobot_Sandbox)/config/playground_save.yaml" command="load" ns="costmap" />
-  </node>
-
+  
 </launch>

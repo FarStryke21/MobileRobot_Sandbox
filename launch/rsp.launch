@@ -21,7 +21,7 @@
     </include>
 
     <!-- Launch RViz -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find MobileRobot_Sandbox)/config/odom_based_motion.rviz" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find MobileRobot_Sandbox)/config/amcl_config.rviz" />
 
     <!-- Spawn Robot Model -->
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
