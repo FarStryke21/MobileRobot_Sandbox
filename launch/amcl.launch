@@ -1,5 +1,7 @@
 <launch>
 
+    <include file="$(find MobileRobot_Sandbox)/launch/rsp.launch" />
+    
     <node pkg="map_server" type="map_server" name="map_server" args="$(find MobileRobot_Sandbox)/config/playground_save.yaml" />
 
     <node pkg="amcl" type="amcl" name="amcl" output="screen" />

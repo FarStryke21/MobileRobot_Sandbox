@@ -1,6 +1,7 @@
 <launch>
     <!-- Declare launch argument for sim time -->
     <arg name="use_sim_time" default="true" />
+    <arg name="paused" default="true" />
     <arg name="robot_name" default="mobile_robot" />
     <arg name="world_file" default="$(find MobileRobot_Sandbox)/worlds/playground.world"/>
 
@@ -9,27 +10,34 @@
     <rosparam file="$(find MobileRobot_Sandbox)/config/controllers.yaml" command="load" />
     <rosparam file="$(find MobileRobot_Sandbox)/config/gazebo_params.yaml" command="load" />
     
-
-    <!-- Node: robot_state_publisher -->
-    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen" respawn="false">
-        <param name="use_sim_time" value="$(arg use_sim_time)" />
-    </node>
+    <!-- Set the position in empty world-->
+    <arg name="x" default="0" />
+    <arg name="y" default="0" />
+    <arg name="z" default="0.05" />
 
     <!-- Launch Gazebo -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="world_name" value="$(arg world_file)"/>
+        <arg name="paused" value="$(arg paused)" />
     </include>
-
-    <!-- Launch RViz -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find MobileRobot_Sandbox)/config/amcl_config.rviz" />
 
     <!-- Spawn Robot Model -->
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-        args="-urdf -model $(arg robot_name) -param robot_description" />
+        args="-urdf -model $(arg robot_name) -param robot_description -x $(arg x) -y $(arg y) -z $(arg z)" />
+
+      <!-- Node: robot_state_publisher -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen" respawn="false">
+        <param name="use_sim_time" value="$(arg use_sim_time)" />
+    </node>
+
 
     <!-- Launch Controller Manager -->
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
-         args="mobile_base_controller joint_state_controller" />   
+         args="mobile_base_controller joint_state_controller" /> 
+
+    <!-- Launch RViz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find MobileRobot_Sandbox)/config/amcl_config.rviz" />
+  
 
     <!-- Start Joy Stick Controller -->
     <rosparam file="$(find MobileRobot_Sandbox)/config/joystick.yaml" command="load" />
