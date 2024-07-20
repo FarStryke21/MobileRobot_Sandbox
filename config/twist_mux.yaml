@@ -14,3 +14,8 @@ topics:
   topic   : cmd_vel_tracker
   timeout : 0.5
   priority: 20
+-  
+  name    : ball_tracker
+  topic   : cmd_vel_tracker
+  timeout : 0.5
+  priority: 20

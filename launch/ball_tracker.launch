@@ -1,0 +1,44 @@
+<launch>
+    <arg name="params_file" default="$(find MobileRobot_Sandbox)/config/ball_tracker_params_example.yaml" doc="Full path to params file for all ball_tracker nodes." />
+    <arg name="detect_only" default="false" doc="Doesn't run the follow component. Useful for just testing the detections." />
+    <arg name="follow_only" default="false" doc="Doesn't run the detect component. Useful for testing just the following. (e.g. with manually published detections)" />
+    <arg name="tune_detection" default="false" doc="Enables tuning mode for the detection" />
+    <arg name="use_sim_time" default="false" doc="Enables sim time for the follow node." />
+    <arg name="cmd_vel_topic" default="/cmd_vel" doc="The name of the output command vel topic." />
+    <arg name="enable_3d_tracker" default="false" doc="Enables the 3D tracker node" />
+
+    <include file="$(find MobileRobot_Sandbox)/launch/rsp.launch" />
+    
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find MobileRobot_Sandbox)/config/playground_save.yaml" />
+
+    <node pkg="amcl" type="amcl" name="amcl" output="screen" />
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find MobileRobot_Sandbox)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find MobileRobot_Sandbox)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find MobileRobot_Sandbox)/config/local_costmap_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find MobileRobot_Sandbox)/config/global_costmap_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find MobileRobot_Sandbox)/config/base_local_planner_params.yaml" command="load" />
+    </node>
+
+    <!-- Nodes -->
+    <rosparam file="$(arg params_file)" command="load" />
+
+    <group if="$(eval not follow_only)">
+        <node pkg="MobileRobot_Sandbox" type="detect_ball.py" name="detect_ball" output="screen">
+        <param name="tuning_mode" value="$(arg tune_detection)" />
+        </node>
+    </group>
+
+    <group if="$(arg enable_3d_tracker)">
+        <node pkg="MobileRobot_Sandbox" type="detect_ball_3d.py" name="detect_ball_3d" output="screen" />
+    </group>
+
+    <group if="$(eval not detect_only)">
+        <node pkg="MobileRobot_Sandbox" type="follow_ball.py" name="follow_ball" output="screen">
+        <param name="use_sim_time" value="$(arg use_sim_time)" />
+        <remap from="/cmd_vel" to="$(arg cmd_vel_topic)" />
+        </node>
+    </group> 
+
+</launch>
